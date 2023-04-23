@@ -17,6 +17,18 @@ Our Second Approach uses GP 100 Generation Sim to try to solve the Problem, whic
 
 The bots in this simulation contains 12 different weights, which account for the 4 main moves that can be made in Catan (Building a City, Building a Settlement, Buying Development Cards, and Building Roads) in 3 different stages of the game (Early, Mid, and Late)
 
+
+To keep this within the realms of CMSE202, we took advantage of **classes** to visualize our data.
+
+Our use of classes focused in the implementation of numpy and matplotlib to run our data through a dictionary fit to our class to create subplots that showed our players.
+
+These subplots contained an aesthetic visualization of the actions that were being done by each player and how many times.
+
+We used this data to determine the best methods of play as well and how to interpret different paths of play.
+
+This also made it much quicker for us to create visuals and determine which players were standing out and why they were, which also made it easier for us to look into both approaches of our own methods.
+
+
 ```python
 
 ```
