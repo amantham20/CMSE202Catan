@@ -12,7 +12,7 @@ Link - https://github.com/bcollazo/catanatron
 Our Goal for this project is to find weights for actions in a Catan Game, aka what kind of move is the best move? And when is this move good or bad compared to other moves?
 
 
-Our First Approaches to solving this are in the GPTem folder. This approaches were preliminary and didn't really result in too many meaningful conslusions. Some approaches we tried in this code were to play Catan games and mutate the bots who lost, as well as applying selective pressure for genetic programming
+Our First Approaches to solving this are in the GPTem folder. This approaches were preliminary and didn't really result in too many meaningful conslusions. Some approaches we tried in this code were to play Catan games and mutate the bots who lost, as well as applying selective pressure for genetic programming.
 
 
 
