@@ -7,7 +7,12 @@ from collections import Counter
 
 import random
 
+# import multiprocessing as mp
 import multiprocessing
+import threading
+import concurrent.futures
+
+import logging
 
 playerDict = {
     Color.RED: 0,
@@ -16,35 +21,28 @@ playerDict = {
     Color.ORANGE: 3,
 }
 
+NumberOfGames = 100
+GENERATIONS = 10
+
 
 players = [
     WeightedRandomPlayer(Color.RED),
-    PlayerE(Color.BLUE),
-    PlayerE(Color.WHITE),
-    PlayerE(Color.ORANGE),
+    PlayerE(Color.BLUE, printout=True),
+    PlayerE(Color.WHITE, printout=True),
+    PlayerE(Color.ORANGE, printout=True),
 ]
 
-NumberOfGames = 50
-
-
-firstPlayersCopy = {
-    Color.BLUE: players[1].copyData(),
-    Color.WHITE: players[2].copyData(),
-    Color.ORANGE: players[3].copyData(),
-}
-
-
+firstPlayersCopy = [None, players[1].copyData(), players[2].copyData(), players[3].copyData()]
 
 BestPlayer = None
 BestScore = 0
 
-
-
-for generations in range(100):
+for generations in range(GENERATIONS):
+    
     victory = []
 
     for games in range(NumberOfGames):
-
+    
         game = Game(players)
         val = game.play()
         victory.append(val)
@@ -52,11 +50,10 @@ for generations in range(100):
     c = dict(Counter(victory))
     print(generations)
 
-    # find the ratio of wins
     for key in c:
         c[key] = int(c[key] / NumberOfGames * 100)
 
-    print(c) 
+    print(c)
 
     # find the best player
     for key in c:
@@ -66,39 +63,76 @@ for generations in range(100):
             print("New Best Player: ", BestPlayer, " with score: ", BestScore)
 
     # mutate the best player
-
-    # extend = []
-    # for i in c:
-    #     if i == Color.RED or not i:
-    #         continue
-    #     extend = extend + [i] * c[i]
-
-    # # make a random pick from the list extend
-    # pick = random.choice(extend)
-    # players[playerDict[pick]].mutate()
-    
-    # sort the list by the number of wins
-    # st = sorted(c.items(), key=lambda x: x[1], reverse=True)
-
     temp = c.pop(Color.RED, None)
     temp = c.pop(None, None)
     st = sorted(c.items(), key=lambda x: x[1], reverse=True)
-    players[1].setData(players[playerDict[st[0][0]]].copyData())
-    players[playerDict[st[0][0]]].mutate()
-    players[2].setData(players[playerDict[st[0][0]]].copyData())
-    players[playerDict[st[1][0]]].mutate()
-    players[3].setData(players[playerDict[st[1][0]]].copyData())
-
-    # for key in c:
-    #     # if Color.RED == key:
-    #     #     continue
-    #     if c[key] < 0.5 and key != Color.RED:
-    #         try:
-    #             players[playerDict[key]].mutate()
-    #         except:
-    #             print("Error: ", key)
+    try:
+      players[1].setData(players[playerDict[st[0][0]]].copyData())
+      players[2].setData(players[playerDict[st[0][0]]].copyData())
+      players[2].mutate()
+      players[3].setData(players[playerDict[st[1][0]]].copyData())
+      players[3].mutate()
+    except:
+      print('An exception occurred')
 
 
+
+# save the scores of other players
+otherbots = {}
+for i in c:
+    # otherbots[i] = c[i]
+    otherbots[i] = players[playerDict[i]].copyData()
+    
+additionalGames = 150
+for bot in otherbots:
+    players[0] = PlayerE(Color.RED)
+    players[0].setData(otherbots[bot])
+
+    for i in range(1, len(players)):
+        players[i].setData(firstPlayersCopy[i])
+        
+    victory = []
+    for games in range(NumberOfGames + additionalGames):
+        game = Game(players)
+        val = game.play()
+        victory.append(val)
+        
+    c = dict(Counter(victory))
+    for key in c:
+        c[key] = int(c[key] / (NumberOfGames+additionalGames) * 100)
+
+
+    print("\n\nbest from last session tournament", bot)
+    for i in sorted(c, key=c.get, reverse=True):
+        print(i, c[i])
+    
+print("\n\n\n ----------------------------------- best victor from the tournament ----------------------------------- ")
 
 print(BestPlayer.WEIGHTS_BY_ACTION_TYPE)
 print(BestScore)
+
+players[0] = PlayerE(Color.RED)
+players[0].setData(BestPlayer.copyData())
+
+for i in range(1, len(players)):
+    players[i].setData(firstPlayersCopy[i])
+    
+victory = []
+for games in range(NumberOfGames):
+    game = Game(players)
+    val = game.play()
+    victory.append(val)
+    
+c = dict(Counter(victory))
+for key in c:
+    c[key] = int(c[key] / NumberOfGames * 100)
+
+
+print("best For this tournament")
+for i in sorted(c, key=c.get, reverse=True):
+    print(i, c[i])
+
+
+
+
+
