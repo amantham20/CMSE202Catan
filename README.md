@@ -12,7 +12,7 @@ Our Goal for this project is to find weights for actions in a Catan Game, aka wh
 
 Our First Approaches to solving this are in the GPTem folder. This approaches were preliminary and didn't really result in too many meaningful conslusions. Some approaches we tried in this code were to play Catan games and mutate the bots who lost, as well as applying selective pressure for genetic programming.
 
-Our Second Approach uses GP 100 Generation Sim to try to solve the Problem, which was to create generations of bots and have those bots play each other to determine the most "fit" bots, which would then used to create the net generation.
+Our Second Approach can be found in the file GP_100_Generation_Sim, where we created generations of bots and had those bots play each other to determine the most "fit" bots, which would then used to create the next generation.
 
 
 The bots in this simulation contains 12 different weights, which account for the 4 main moves that can be made in Catan (Building a City, Building a Settlement, Buying Development Cards, and Building Roads) in 3 different stages of the game (Early, Mid, and Late)
