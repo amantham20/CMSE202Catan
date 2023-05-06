@@ -2,7 +2,7 @@
 
 
 
-Catanatron - Used this existing code to run games of Catan, as well as built off of the basic player class. 
+Catanatron - Used this existing code to run games of Catan, as well as built off of the basic player class.
 
 Link - https://github.com/bcollazo/catanatron
 
@@ -12,6 +12,46 @@ Our Goal for this project is to find weights for actions in a Catan Game, aka wh
 
 Our First Approaches to solving this are in the GPTem folder. This approaches were preliminary and didn't really result in too many meaningful conslusions. Some approaches we tried in this code were to play Catan games and mutate the bots who lost, as well as applying selective pressure for genetic programming.
 
+
+to get started with the project!
+
+use command 
+```Bash
+git clone git@github.com:bcollazo/catanatron.git
+cd catanatron/
+```
+
+and ensure to run
+```
+pip install -r requirements.txt
+```
+
+move/copy all files from GPTem into the catanatron folder
+`
+cp ../GPTem/* .
+`
+or
+`
+mv ../GPTem/* .
+`
+
+
+
+## First Approach
+then you can run the code with
+```Bash
+python MultipleTournaments.py
+```
+
+
+for this approach in the code we have intergrated a way to mutate the bots.
+you can expitement with chaing the static values to see how the bots mutate.
+
+you can see the bots mutate and compete with the weighted random
+
+**! be ware that this code can take a long time to run !**
+
+## Second Approach
 Our Second Approach can be found in the file GP_100_Generation_Sim, where we created generations of bots and had those bots play each other to determine the most "fit" bots, which would then used to create the next generation.
 
 
@@ -30,5 +70,6 @@ This also made it much quicker for us to create visuals and determine which play
 
 
 ```python
-
 ```
+
+
